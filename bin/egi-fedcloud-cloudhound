@@ -4,3 +4,43 @@
 #
 #
 
+require 'rubygems'
+
+require 'thor'
+require 'egi-fedcloud-cloudhound'
+
+class EgiFedcloudCloudhound < Thor
+  desc "ip", "Prints information based on the provided IP address"
+  def ip
+    static_options
+    puts "Here Be Dragons!"
+  end
+
+  desc "mpuri", "Prints information based on the provided MPURI"
+  def mpuri
+    static_options
+    puts "Here Be Dragons!"
+  end
+
+  class << self
+    #
+    def static_configuration
+      static_options = {}
+
+      static_options[:credentials] = Egi::Fedcloud::Cloudhound::Settings.credentials || "#{ENV['HOME']}/.globus/usercred.pem"
+      static_options[:ca_path] = Egi::Fedcloud::Cloudhound::Settings.ca_path || '/etc/grid-security/certificates'
+      static_options[:gocdb_base_url] = Egi::Fedcloud::Cloudhound::Settings.gocdb_base_url || 'https://goc.egi.eu'
+      static_options[:appdb_base_url] = Egi::Fedcloud::Cloudhound::Settings.appdb_base_url || 'https://appdb-pi.egi.eu'
+
+      static_options[:password] = if Egi::Fedcloud::Cloudhound::Settings.secure_credentials
+                                    ask 'Password:'
+                                  else
+                                    nil
+                                  end
+
+      static_options
+    end
+  end
+end
+
+EgiFedcloudCloudhound.start

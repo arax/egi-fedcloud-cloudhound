@@ -1,1 +1,21 @@
 ---
+production:
+  credentials:
+  secure_credentials: true
+  ca_path:
+  gocdb_base_url:
+  appdb_base_url:
+
+development:
+  credentials:
+  secure_credentials: true
+  ca_path:
+  gocdb_base_url:
+  appdb_base_url:
+
+test:
+  credentials:
+  secure_credentials: true
+  ca_path:
+  gocdb_base_url:
+  appdb_base_url:

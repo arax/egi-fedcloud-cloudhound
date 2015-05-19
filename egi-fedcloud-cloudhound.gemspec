@@ -26,7 +26,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'highline', '~> 1.7', '>= 1.7.2'
   gem.add_dependency 'terminal-table', '~> 1.4', '>= 1.4.5'
   gem.add_dependency 'ox', '~> 2.2', '>= 2.2.0'
-  gem.add_dependency 'settingslogic', '~> 2.0', '>= 2.0.9'
 
   gem.add_development_dependency 'bundler', '~> 1.6'
   gem.add_development_dependency 'rake', '~> 10.0'
