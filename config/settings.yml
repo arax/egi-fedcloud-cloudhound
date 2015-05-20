@@ -5,6 +5,7 @@ production:
   ca_path:
   gocdb_base_url:
   appdb_base_url:
+  debug: false
 
 development:
   credentials:
@@ -12,6 +13,7 @@ development:
   ca_path:
   gocdb_base_url:
   appdb_base_url:
+  debug: true
 
 test:
   credentials:
@@ -19,3 +21,4 @@ test:
   ca_path:
   gocdb_base_url:
   appdb_base_url:
+  debug: true
