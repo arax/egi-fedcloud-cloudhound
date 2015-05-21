@@ -1,24 +1,21 @@
 ---
 production:
-  credentials:
-  secure_credentials: true
-  ca_path:
-  gocdb_base_url:
-  appdb_base_url:
+  credentials: "~/.globus/usercred.pem"
+  ca_path: '/etc/grid-security/certificates'
+  gocdb_base_url: 'https://goc.egi.eu'
+  appdb_base_url: 'https://appdb-pi.egi.eu'
   debug: false
 
 development:
-  credentials:
-  secure_credentials: true
-  ca_path:
-  gocdb_base_url:
-  appdb_base_url:
+  credentials: "~/.globus/usercred.pem"
+  ca_path: '/etc/grid-security/certificates'
+  gocdb_base_url: 'https://goc.egi.eu'
+  appdb_base_url: 'https://appdb-pi.egi.eu'
   debug: true
 
 test:
-  credentials:
-  secure_credentials: true
-  ca_path:
-  gocdb_base_url:
-  appdb_base_url:
+  credentials: "~/.globus/usercred.pem"
+  ca_path: '/etc/grid-security/certificates'
+  gocdb_base_url: 'https://goc.egi.eu'
+  appdb_base_url: 'https://appdb-pi.egi.eu'
   debug: true

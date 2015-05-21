@@ -23,25 +23,41 @@ class EgiFedcloudCloudhound < Thor
   include Thor::Actions
 
   desc "ip IP_ADDRESS", "Prints information based on the provided IP address or IP address range"
+  method_option :credentials, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.credentials,
+                :aliases => '-c', :desc => 'PEM file with a personal certificate and private key'
+  method_option :ca_path, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.ca_path,
+                :aliases => '-x', :desc => 'Directory path to all trusted CA certificates'
+  method_option :gocdb_base_url, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.gocdb_base_url,
+                :aliases => '-g', :desc => 'GOCDB endpoint URL'
+  method_option :appdb_base_url, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.appdb_base_url,
+                :aliases => '-a', :desc => 'AppDB API endpoint URL'
   method_option :debug, :type => :boolean, :default => Egi::Fedcloud::Cloudhound::Settings.debug,
                 :aliases => '-d', :desc => 'Enable debugging'
   def ip(ip_address)
     $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
       Egi::Fedcloud::Cloudhound::Extractor.find_by_ip(
         ip_address,
-        self.class.static_configuration.merge(options)
+        options
       )
     )
   end
 
   desc "appuri URI", "Prints information based on the provided Appliance MPURI"
+  method_option :credentials, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.credentials,
+                :aliases => '-c', :desc => 'PEM file with a personal certificate and private key'
+  method_option :ca_path, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.ca_path,
+                :aliases => '-x', :desc => 'Directory path to all trusted CA certificates'
+  method_option :gocdb_base_url, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.gocdb_base_url,
+                :aliases => '-g', :desc => 'GOCDB endpoint URL'
+  method_option :appdb_base_url, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.appdb_base_url,
+                :aliases => '-a', :desc => 'AppDB API endpoint URL'
   method_option :debug, :type => :boolean, :default => Egi::Fedcloud::Cloudhound::Settings.debug,
                 :aliases => '-d', :desc => 'Enable debugging'
   def appuri(uri)
     $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
       Egi::Fedcloud::Cloudhound::Extractor.find_by_appuri(
         uri,
-        self.class.static_configuration.merge(options)
+        options
       )
     )
   end
@@ -51,24 +67,6 @@ class EgiFedcloudCloudhound < Thor
     # actions work.
     def self.source_root
       File.expand_path(File.join('..', '..', 'config'), __FILE__)
-    end
-
-    # TODO: move to thor options
-    def static_configuration
-      static_options = {}
-
-      static_options[:credentials] = Egi::Fedcloud::Cloudhound::Settings.credentials || "#{ENV['HOME']}/.globus/usercred.pem"
-      static_options[:ca_path] = Egi::Fedcloud::Cloudhound::Settings.ca_path || '/etc/grid-security/certificates'
-      static_options[:gocdb_base_url] = Egi::Fedcloud::Cloudhound::Settings.gocdb_base_url || 'https://goc.egi.eu'
-      static_options[:appdb_base_url] = Egi::Fedcloud::Cloudhound::Settings.appdb_base_url || 'https://appdb-pi.egi.eu'
-
-      static_options[:password] = if Egi::Fedcloud::Cloudhound::Settings.secure_credentials
-                                    ask('Password:') { |q| q.echo = '*' }
-                                  else
-                                    nil
-                                  end
-
-      static_options
     end
   end
 end
