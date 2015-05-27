@@ -1,20 +1,20 @@
 ---
 production:
-  credentials: "~/.globus/usercred.pem"
+  credentials: "<%= ENV['HOME'] %>/.globus/usercred.pem"
   ca_path: '/etc/grid-security/certificates'
   gocdb_base_url: 'https://goc.egi.eu'
   appdb_base_url: 'https://appdb-pi.egi.eu'
   debug: false
 
 development:
-  credentials: "~/.globus/usercred.pem"
+  credentials: "<%= ENV['HOME'] %>/.globus/usercred.pem"
   ca_path: '/etc/grid-security/certificates'
   gocdb_base_url: 'https://goc.egi.eu'
   appdb_base_url: 'https://appdb-pi.egi.eu'
   debug: true
 
 test:
-  credentials: "~/.globus/usercred.pem"
+  credentials: "<%= ENV['HOME'] %>/.globus/usercred.pem"
   ca_path: '/etc/grid-security/certificates'
   gocdb_base_url: 'https://goc.egi.eu'
   appdb_base_url: 'https://appdb-pi.egi.eu'

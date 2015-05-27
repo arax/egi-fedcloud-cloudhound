@@ -11,6 +11,7 @@ require 'active_support/notifications'
 
 require 'egi/fedcloud/cloudhound/version'
 require 'egi/fedcloud/cloudhound/settings'
+require 'egi/fedcloud/cloudhound/log'
 require 'egi/fedcloud/cloudhound/formatter'
 require 'egi/fedcloud/cloudhound/connector'
 require 'egi/fedcloud/cloudhound/appdb_site'

@@ -13,7 +13,7 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
 
   #
   def sites
-    @cached_sites if @cached_sites
+    return @cached_sites if @cached_sites
 
     sites = Ox.parse retrieve("#{@appdb_base_url}#{APPDB_SITES_URL}")
     @cached_sites = sites.locate('appdb/*').map { |site| Egi::Fedcloud::Cloudhound::AppdbSite.new(site) }
@@ -21,12 +21,12 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
 
   #
   def production_sites
-    sites.select { |site| site.infrastructure == 'Production' }
+    production sites
   end
 
   #
   def certified_production_sites
-    production_sites.select { |site| site.status == 'Certified' }
+    certified production_sites
   end
 
   #
@@ -36,12 +36,12 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
 
   #
   def production_cloud_sites
-    cloud_sites.select { |site| site.infrastructure == 'Production' }
+    production cloud_sites
   end
 
   #
   def certified_production_cloud_sites
-    production_cloud_sites.select { |site| site.status == 'Certified' }
+    certified production_cloud_sites
   end
 
   #
@@ -54,5 +54,15 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
   def site_gocdb(site_name)
     found = sites.select { |site| site.name == site_name }
     found.first ? found.first.gocdb_link : nil
+  end
+
+  private
+
+  def production(sites)
+    sites.select { |site| site.infrastructure == 'Production' }
+  end
+
+  def certified(sites)
+    sites.select { |site| site.status == 'Certified' }
   end
 end

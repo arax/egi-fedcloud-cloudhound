@@ -6,8 +6,8 @@ class Egi::Fedcloud::Cloudhound::AppdbSite
 
   #
   def initialize(element)
-    @services = self.extract_services(element)
-    @gocdb_link = self.extract_gocdb_link(element)
+    @services = self.class.extract_services(element)
+    @gocdb_link = self.class.extract_gocdb_link(element)
     @name = element.name
     @type = @services.empty? ? 'grid' : 'cloud'
     @status = element.status
@@ -19,7 +19,12 @@ class Egi::Fedcloud::Cloudhound::AppdbSite
     #
     def extract_services(element)
       services = (element.locate('service') || [])
-      services.map { |service| "#{service.type} -- #{service.host}" }
+      services.map do |service|
+        srv = {}
+        srv['type'] = service.type
+        srv['host'] = service.host
+        srv
+      end
     end
 
     #

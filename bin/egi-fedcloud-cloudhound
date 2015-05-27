@@ -34,6 +34,7 @@ class EgiFedcloudCloudhound < Thor
   method_option :debug, :type => :boolean, :default => Egi::Fedcloud::Cloudhound::Settings.debug,
                 :aliases => '-d', :desc => 'Enable debugging'
   def ip(ip_address)
+    init_log options[:debug]
     $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
       Egi::Fedcloud::Cloudhound::Extractor.find_by_ip(
         ip_address,
@@ -54,6 +55,7 @@ class EgiFedcloudCloudhound < Thor
   method_option :debug, :type => :boolean, :default => Egi::Fedcloud::Cloudhound::Settings.debug,
                 :aliases => '-d', :desc => 'Enable debugging'
   def appuri(uri)
+    init_log options[:debug]
     $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
       Egi::Fedcloud::Cloudhound::Extractor.find_by_appuri(
         uri,
@@ -62,12 +64,22 @@ class EgiFedcloudCloudhound < Thor
     )
   end
 
-  class << self
-    # Static method required by Thor to make certain
-    # actions work.
-    def self.source_root
-      File.expand_path(File.join('..', '..', 'config'), __FILE__)
-    end
+  # Static method required by Thor to make certain
+  # actions work.
+  def self.source_root
+    File.expand_path(File.join('..', '..', 'config'), __FILE__)
+  end
+
+  private
+
+  # Initializes logging facilities.
+  #
+  # @param debug [Boolean] rudimentary logging level control
+  # @return [Egi::Fedcloud::Cloudhound::Log] logger instance for additional configuration
+  def init_log(debug = false)
+    logger = Egi::Fedcloud::Cloudhound::Log.new(STDERR)
+    logger.level = debug ? Egi::Fedcloud::Cloudhound::Log::DEBUG : Egi::Fedcloud::Cloudhound::Log::ERROR
+    logger
   end
 end
 

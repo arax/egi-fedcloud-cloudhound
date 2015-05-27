@@ -7,8 +7,9 @@ class Egi::Fedcloud::Cloudhound::Connector
 
   #
   def initialize(opts = {})
-    self.class.pem File.read(opts[:credentials]), opts(:password)
+    self.class.pem File.read(opts[:credentials]), opts[:password]
     self.class.ssl_ca_path opts[:ca_path]
+    self.class.debug_output $stderr if opts[:debug]
   end
 
   #

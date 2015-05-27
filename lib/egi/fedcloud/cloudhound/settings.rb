@@ -7,5 +7,5 @@ class Egi::Fedcloud::Cloudhound::Settings < Settingslogic
   source "#{ENV['HOME']}/.egi-fedcloud-cloudhound" if File.readable?("#{ENV['HOME']}/.egi-fedcloud-cloudhound")
   source "#{GEM_ROOT}/config/settings.yml"
 
-  namespace 'production'
+  namespace ((ENV['DEBUG'] == '1') ? 'development' : 'production')
 end
