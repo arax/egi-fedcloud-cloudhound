@@ -16,6 +16,17 @@ class Egi::Fedcloud::Cloudhound::AppdbSite
     @infrastructure = element.infrastructure
   end
 
+  #
+  def contacts
+    {
+      name: name,
+      type: type,
+      status: status,
+      csirt: nil,
+      ngi: nil
+    }
+  end
+
   class << self
 
     #

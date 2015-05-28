@@ -31,6 +31,17 @@ class Egi::Fedcloud::Cloudhound::GocdbSite
     false
   end
 
+  #
+  def contacts
+    {
+      name: name,
+      type: nil,
+      status: nil,
+      csirt: csirt_email,
+      ngi: ngi
+    }
+  end
+
   class << self
     #
     def extract_ranges(text_ranges)

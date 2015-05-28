@@ -27,7 +27,7 @@ class Egi::Fedcloud::Cloudhound::Extractor
         break unless found.blank?
       end
 
-      found
+      found.collect { |site| site.contacts }
     end
 
     #
@@ -35,7 +35,22 @@ class Egi::Fedcloud::Cloudhound::Extractor
       init options
 
       Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Searching for contacts by MPURI: #{uri.inspect}"
-      options
+      sites = @@appdb.appliance(uri).sites.collect { |site| site['name'] }
+
+      Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Querying #{sites.inspect} for contact details"
+      found = []
+      sites.each do |affected_site|
+        LOOKUP_ORDER.each do |lookup_type|
+          found << @@gocdb.send(lookup_type).select { |site| site.name == affected_site }
+          found.flatten!
+          found.compact!
+
+          Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Found #{found.inspect} in #{lookup_type.inspect}"
+          break unless found.blank?
+        end
+      end
+
+      found.collect { |site| site.contacts }
     end
   end
 

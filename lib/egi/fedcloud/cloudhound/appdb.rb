@@ -48,6 +48,7 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
 
   #
   def appliance(uri)
+    uri = uri.chomp '/'
     Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Pulling appliance data from \"#{uri}/json\""
     raw_appliance = JSON.parse retrieve("#{uri}/json")
     Egi::Fedcloud::Cloudhound::AppdbAppliance.new raw_appliance
