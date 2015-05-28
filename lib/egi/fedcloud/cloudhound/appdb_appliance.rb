@@ -8,6 +8,8 @@ class Egi::Fedcloud::Cloudhound::AppdbAppliance
 
   #
   def initialize(element)
+    Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Initializing with #{element.inspect}"
+
     @identifier = element['identifier']
     @version = element['version']
     @url = element['url']

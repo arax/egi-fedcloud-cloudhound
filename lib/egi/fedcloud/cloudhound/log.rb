@@ -11,7 +11,7 @@ class Egi::Fedcloud::Cloudhound::Log
     #
     # @param log_dev [IO,String] The log device.  This is a filename (String) or IO object (typically +STDOUT+)
     # @param log_prefix [String] String placed in front of every logged message +STDERR+, or an open file).
-    def initialize(log_dev, log_prefix = '[egi-fedcloud-cloudhound]')
+    def initialize(log_dev, log_prefix = '')
       if log_dev.kind_of? ::Logger
         @logger = log_dev
       else
@@ -19,10 +19,11 @@ class Egi::Fedcloud::Cloudhound::Log
       end
 
       @log_prefix = log_prefix.blank? ? '' : log_prefix.strip
+      @log_prefix << ' ' unless @log_prefix.blank?
 
       # subscribe to log messages and send to logger
       @log_subscriber = ActiveSupport::Notifications.subscribe(self.class::SUBSCRIPTION_HANDLE) do |name, start, finish, id, payload|
-        @logger.log(payload[:level], "#{@log_prefix} #{payload[:message]}") if @logger
+        @logger.log(payload[:level], "#{@log_prefix}#{payload[:message]}") if @logger
       end
     end
 

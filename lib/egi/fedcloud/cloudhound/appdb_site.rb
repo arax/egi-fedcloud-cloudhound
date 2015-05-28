@@ -6,6 +6,8 @@ class Egi::Fedcloud::Cloudhound::AppdbSite
 
   #
   def initialize(element)
+    Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Initializing with #{element.inspect}"
+
     @services = self.class.extract_services(element)
     @gocdb_link = self.class.extract_gocdb_link(element)
     @name = element.name

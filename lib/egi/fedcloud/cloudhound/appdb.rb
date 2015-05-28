@@ -8,6 +8,7 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
   #
   def initialize(opts = {})
     super
+    Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] With AppDB instance at #{opts[:appdb_base_url].inspect}"
     @appdb_base_url = opts[:appdb_base_url].chomp '/'
   end
 
@@ -15,6 +16,7 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
   def sites
     return @cached_sites if @cached_sites
 
+    Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Pulling site data from \"#{@appdb_base_url}#{APPDB_SITES_URL}\""
     sites = Ox.parse retrieve("#{@appdb_base_url}#{APPDB_SITES_URL}")
     @cached_sites = sites.locate('appdb/*').map { |site| Egi::Fedcloud::Cloudhound::AppdbSite.new(site) }
   end
@@ -46,6 +48,7 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
 
   #
   def appliance(uri)
+    Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Pulling appliance data from \"#{uri}/json\""
     raw_appliance = JSON.parse retrieve("#{uri}/json")
     Egi::Fedcloud::Cloudhound::AppdbAppliance.new raw_appliance
   end

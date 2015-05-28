@@ -16,12 +16,14 @@ class Egi::Fedcloud::Cloudhound::Extractor
     def find_by_ip(ip, options = {})
       init options
 
+      Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Searching for contacts by IP: #{ip.inspect}"
       found = []
       LOOKUP_ORDER.each do |lookup_type|
         found << @@gocdb.send(lookup_type).select { |site| site.in_range?(ip) }
         found.flatten!
         found.compact!
 
+        Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Found #{found.inspect} in #{lookup_type.inspect}"
         break unless found.blank?
       end
 
@@ -32,6 +34,7 @@ class Egi::Fedcloud::Cloudhound::Extractor
     def find_by_appuri(uri, options = {})
       init options
 
+      Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Searching for contacts by MPURI: #{uri.inspect}"
       options
     end
   end

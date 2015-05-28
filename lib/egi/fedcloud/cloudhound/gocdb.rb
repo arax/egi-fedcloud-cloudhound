@@ -18,6 +18,7 @@ class Egi::Fedcloud::Cloudhound::Gocdb < Egi::Fedcloud::Cloudhound::Connector
   #
   def initialize(opts = {})
     super
+    Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] With GOCDB instance at #{opts[:gocdb_base_url].inspect}"
     self.class.base_uri opts[:gocdb_base_url]
   end
 
@@ -42,6 +43,7 @@ class Egi::Fedcloud::Cloudhound::Gocdb < Egi::Fedcloud::Cloudhound::Connector
   def get_and_parse(url, type)
     return instance_variable_get("@cached_#{type}") if instance_variable_defined?("@cached_#{type}")
 
+    Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Pulling site data from #{url.inspect}"
     results = Ox.parse retrieve(url)
     results = results.locate('results/*').map { |site| Egi::Fedcloud::Cloudhound::GocdbSite.new(site) }
     instance_variable_set("@cached_#{type}", results)
