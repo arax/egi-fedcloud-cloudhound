@@ -14,8 +14,8 @@ development:
   debug: true
 
 test:
-  credentials: "<%= ENV['HOME'] %>/.globus/usercred.pem"
+  credentials: "<%= ENV['HOME'] %>/.globus/testcred.pem"
   ca_path: '/etc/grid-security/certificates'
-  gocdb_base_url: 'https://goc.egi.eu'
-  appdb_base_url: 'https://appdb-pi.egi.eu'
+  gocdb_base_url: 'http://localhost/goc'
+  appdb_base_url: 'http://localhost/appdb-pi'
   debug: true

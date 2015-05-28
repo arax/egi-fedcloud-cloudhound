@@ -16,7 +16,7 @@ class Egi::Fedcloud::Cloudhound::Gocdb < Egi::Fedcloud::Cloudhound::Connector
   ]
 
   #
-  def initialize(opts = {})
+  def initialize(opts = {}, password = nil)
     super
     Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] With GOCDB instance at #{opts[:gocdb_base_url].inspect}"
     self.class.base_uri opts[:gocdb_base_url]

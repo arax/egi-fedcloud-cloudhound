@@ -6,7 +6,7 @@ class Egi::Fedcloud::Cloudhound::Appdb < Egi::Fedcloud::Cloudhound::Connector
   APPDB_SITES_URL = '/rest/1.0/sites?flt=+=&site.supports:1'
 
   #
-  def initialize(opts = {})
+  def initialize(opts = {}, password = nil)
     super
     Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] With AppDB instance at #{opts[:appdb_base_url].inspect}"
     @appdb_base_url = opts[:appdb_base_url].chomp '/'

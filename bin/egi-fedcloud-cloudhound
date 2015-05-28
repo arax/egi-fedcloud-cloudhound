@@ -25,6 +25,8 @@ class EgiFedcloudCloudhound < Thor
   desc "ip IP_ADDRESS", "Prints information based on the provided IP address or IP address range"
   method_option :credentials, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.credentials,
                 :aliases => '-c', :desc => 'PEM file with a personal certificate and private key'
+  method_option :password, :type => :string, :default => nil,
+                :aliases => '-p', :desc => 'PEM private key password'
   method_option :ca_path, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.ca_path,
                 :aliases => '-x', :desc => 'Directory path to all trusted CA certificates'
   method_option :gocdb_base_url, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.gocdb_base_url,
@@ -35,6 +37,7 @@ class EgiFedcloudCloudhound < Thor
                 :aliases => '-d', :desc => 'Enable debugging'
   def ip(ip_address)
     init_log options[:debug]
+
     $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
       Egi::Fedcloud::Cloudhound::Extractor.find_by_ip(
         ip_address,
@@ -46,6 +49,8 @@ class EgiFedcloudCloudhound < Thor
   desc "appuri URI", "Prints information based on the provided Appliance MPURI"
   method_option :credentials, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.credentials,
                 :aliases => '-c', :desc => 'PEM file with a personal certificate and private key'
+  method_option :password, :type => :string, :default => nil,
+                :aliases => '-p', :desc => 'PEM private key password'
   method_option :ca_path, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.ca_path,
                 :aliases => '-x', :desc => 'Directory path to all trusted CA certificates'
   method_option :gocdb_base_url, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.gocdb_base_url,
@@ -56,6 +61,7 @@ class EgiFedcloudCloudhound < Thor
                 :aliases => '-d', :desc => 'Enable debugging'
   def appuri(uri)
     init_log options[:debug]
+
     $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
       Egi::Fedcloud::Cloudhound::Extractor.find_by_appuri(
         uri,

@@ -1,4 +1,5 @@
 require 'ipaddr'
+require 'highline/import'
 
 #
 class Egi::Fedcloud::Cloudhound::Extractor
@@ -8,8 +9,11 @@ class Egi::Fedcloud::Cloudhound::Extractor
   class << self
 
     def init(options)
-      @@gocdb ||= Egi::Fedcloud::Cloudhound::Gocdb.new(options)
-      @@appdb ||= Egi::Fedcloud::Cloudhound::Appdb.new(options)
+      # TODO: move upstream
+      password = options[:password] ? options[:password] : ask("Enter PEM password: ") { |q| q.echo = false }
+
+      @@gocdb ||= Egi::Fedcloud::Cloudhound::Gocdb.new(options, password)
+      @@appdb ||= Egi::Fedcloud::Cloudhound::Appdb.new(options, password)
     end
 
     #

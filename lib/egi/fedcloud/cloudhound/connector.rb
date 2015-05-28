@@ -6,10 +6,10 @@ class Egi::Fedcloud::Cloudhound::Connector
   include HTTParty
 
   #
-  def initialize(opts = {})
+  def initialize(opts = {}, password = nil)
     Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Initializing with #{opts.inspect}"
 
-    self.class.pem File.read(opts[:credentials]), opts[:password]
+    self.class.pem File.read(opts[:credentials]), password
     self.class.ssl_ca_path opts[:ca_path]
     self.class.debug_output $stderr if opts[:debug]
   end
