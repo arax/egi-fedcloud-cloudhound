@@ -1,5 +1,6 @@
 ---
 production:
+  format: table
   credentials: "<%= ENV['HOME'] %>/.globus/usercred.pem"
   ca_path: '/etc/grid-security/certificates'
   gocdb_base_url: 'https://goc.egi.eu'
@@ -7,6 +8,7 @@ production:
   debug: false
 
 development:
+  format: table
   credentials: "<%= ENV['HOME'] %>/.globus/usercred.pem"
   ca_path: '/etc/grid-security/certificates'
   gocdb_base_url: 'https://goc.egi.eu'
@@ -14,6 +16,7 @@ development:
   debug: true
 
 test:
+  format: table
   credentials: "<%= ENV['HOME'] %>/.globus/testcred.pem"
   ca_path: '/etc/grid-security/certificates'
   gocdb_base_url: 'http://localhost/goc'

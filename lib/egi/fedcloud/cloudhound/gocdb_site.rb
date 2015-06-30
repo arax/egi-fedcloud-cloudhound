@@ -16,7 +16,7 @@ class Egi::Fedcloud::Cloudhound::GocdbSite
     @ngi = self.class.extract_text(element.locate('ROC'))
 
     Egi::Fedcloud::Cloudhound::Log.debug "[#{self.class}] Extracting IP ranges for site #{@name}"
-    @ip_ranges = self.class.extract_ranges(self.class.extract_text(element.locate('SITE_IP')))
+    @ip_ranges = self.class.extract_ranges(self.class.extract_text(element.locate('SITE_IP')), @name)
   end
 
   #
@@ -44,7 +44,7 @@ class Egi::Fedcloud::Cloudhound::GocdbSite
 
   class << self
     #
-    def extract_ranges(text_ranges)
+    def extract_ranges(text_ranges, site_name)
       ranges = text_ranges.split(/[,;]/).reject { |el| el.blank? || !el.include?('/') || INVALID_RANGES.include?(el) }
 
       Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] -- Ranges: #{ranges.inspect}"
@@ -52,7 +52,8 @@ class Egi::Fedcloud::Cloudhound::GocdbSite
         begin
           IPAddr.new(range)
         rescue
-          Egi::Fedcloud::Cloudhound::Log.warn "[#{self}] -- Invalid range #{range.inspect}"
+          Egi::Fedcloud::Cloudhound::Log.warn "[#{self}] Invalid IP range #{range.inspect} " \
+                                              "for site #{site_name}"
           nil
         end
       end

@@ -23,6 +23,8 @@ class EgiFedcloudCloudhound < Thor
   include Thor::Actions
 
   desc "all", "Prints information for all available cloud sites"
+  method_option :format, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.format,
+                :enum => Egi::Fedcloud::Cloudhound::Formatter::FORMATS, :aliases => '-o', :desc => 'Output formatting'
   method_option :credentials, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.credentials,
                 :aliases => '-c', :desc => 'PEM file with a personal certificate and private key'
   method_option :password, :type => :string, :default => nil,
@@ -38,7 +40,8 @@ class EgiFedcloudCloudhound < Thor
   def all
     init_log options[:debug]
 
-    $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
+    $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.send(
+      "as_#{options[:format]}",
       Egi::Fedcloud::Cloudhound::Extractor.find_all(
         options
       )
@@ -46,6 +49,8 @@ class EgiFedcloudCloudhound < Thor
   end
 
   desc "ip IP_ADDRESS", "Prints information based on the provided IP address or IP address range"
+  method_option :format, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.format,
+                :enum => Egi::Fedcloud::Cloudhound::Formatter::FORMATS, :aliases => '-o', :desc => 'Output formatting'
   method_option :credentials, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.credentials,
                 :aliases => '-c', :desc => 'PEM file with a personal certificate and private key'
   method_option :password, :type => :string, :default => nil,
@@ -61,7 +66,8 @@ class EgiFedcloudCloudhound < Thor
   def ip(ip_address)
     init_log options[:debug]
 
-    $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
+    $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.send(
+      "as_#{options[:format]}",
       Egi::Fedcloud::Cloudhound::Extractor.find_by_ip(
         ip_address,
         options
@@ -70,6 +76,8 @@ class EgiFedcloudCloudhound < Thor
   end
 
   desc "appuri URI", "Prints information based on the provided Appliance MPURI"
+  method_option :format, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.format,
+                :enum => Egi::Fedcloud::Cloudhound::Formatter::FORMATS, :aliases => '-o', :desc => 'Output formatting'
   method_option :credentials, :type => :string, :default => Egi::Fedcloud::Cloudhound::Settings.credentials,
                 :aliases => '-c', :desc => 'PEM file with a personal certificate and private key'
   method_option :password, :type => :string, :default => nil,
@@ -85,7 +93,8 @@ class EgiFedcloudCloudhound < Thor
   def appuri(uri)
     init_log options[:debug]
 
-    $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.as_table(
+    $stdout.puts Egi::Fedcloud::Cloudhound::Formatter.send(
+      "as_#{options[:format]}",
       Egi::Fedcloud::Cloudhound::Extractor.find_by_appuri(
         uri,
         options
@@ -107,7 +116,7 @@ class EgiFedcloudCloudhound < Thor
   # @return [Egi::Fedcloud::Cloudhound::Log] logger instance for additional configuration
   def init_log(debug = false)
     logger = Egi::Fedcloud::Cloudhound::Log.new(STDERR)
-    logger.level = debug ? Egi::Fedcloud::Cloudhound::Log::DEBUG : Egi::Fedcloud::Cloudhound::Log::ERROR
+    logger.level = debug ? Egi::Fedcloud::Cloudhound::Log::DEBUG : Egi::Fedcloud::Cloudhound::Log::WARN
     logger
   end
 end
