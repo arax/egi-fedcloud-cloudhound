@@ -17,6 +17,20 @@ class Egi::Fedcloud::Cloudhound::Extractor
     end
 
     #
+    def find_all(options = {})
+      init options
+
+      Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Searching for all cloud-related contacts"
+
+      sites = @@gocdb.cloud_sites
+      sites.compact!
+
+      Egi::Fedcloud::Cloudhound::Log.debug "[#{self}] Found #{sites.count} cloud sites"
+
+      sites.collect { |site| site.contacts }
+    end
+
+    #
     def find_by_ip(ip, options = {})
       init options
 
